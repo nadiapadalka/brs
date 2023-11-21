@@ -532,6 +532,7 @@ export class Parser {
                 consume(
                     "Expected newline or ':' after assignment",
                     Lexeme.Newline,
+                    Lexeme.Print,
                     Lexeme.Colon,
                     Lexeme.Eof,
                     ...additionalterminators
@@ -1415,6 +1416,12 @@ export class Parser {
             while (true) {
                 if (match(Lexeme.LeftParen)) {
                     expr = finishCall(expr);
+                } else if (match(Lexeme.Print)) {
+                    if (preprevious().literal == BrsInvalid.Instance)
+                    {
+                        return new Expr.Literal(BrsInvalid.Instance, previous().location); 
+                    }
+                    // doing nothing as invalid check was before
                 } else if (match(Lexeme.LeftSquare)) {
                     indexedGet();
                 } else if (match(Lexeme.Dot)) {
@@ -1710,6 +1717,10 @@ export class Parser {
 
         function previous() {
             return tokens[current - 1];
+        }
+        
+        function preprevious(){
+            return tokens[current - 2];
         }
 
         function synchronize() {
