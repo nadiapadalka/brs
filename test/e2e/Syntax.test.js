@@ -232,7 +232,9 @@ describe("end to end syntax", () => {
         expect(allArgs(outputStreams.stdout.write).filter((arg) => arg !== "\n")).toEqual([
             "removed number '3' from array, remaining 2",
             "promise-like resolved to 'foo'",
+            "optional chaining is invalid",
             "optional chaining works",
+            "optional chaining object is invalid",
         ]);
     });
 });

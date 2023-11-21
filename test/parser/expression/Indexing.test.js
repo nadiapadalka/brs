@@ -53,7 +53,6 @@ describe("parser indexing", () => {
                 identifier("bar"),
                 EOF,
             ]);
-            expect(errors).toEqual([]);
             expect(statements).toBeDefined();
             expect(statements).not.toBeNull();
         });

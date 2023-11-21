@@ -6,7 +6,12 @@ sub main()
     immediatePromise("foo").then(sub(result)
         print "promise-like resolved to '" + result + "'"
     end sub)
-    print "optional chaining " + testOptionalChaining()
+    result = testOptionalChaining()
+    if testOptionalChaining() = invalid then result = "invalid"
+    print "optional chaining is " + result
+    print "optional chaining " + testOptionalChainingValid()
+    if testOptionalChainingEmpty() = invalid then result = "invalid"
+    print "optional chaining object is " + result
 end sub
 
 ' A simple promise-like function that immediately resolves to the provided value.
@@ -25,6 +30,14 @@ end function
 
 function testOptionalChaining()
     responseData = {
+        data: "str"
+    }
+    result = responseData?.data?.metricsData?.smth
+    return result
+end function
+
+function testOptionalChainingValid()
+    responseData = {
         data:{
             metricsData:{
                 addOnsStepStart : "works"
@@ -32,5 +45,13 @@ function testOptionalChaining()
         }
     }
     result = responseData?.data.metricsData?.addOnsStepStart
+    return result
+end function
+
+function testOptionalChainingEmpty()
+    responseData = {}
+
+    result = responseData?.data.metricsData?.addOnsStepStart
+
     return result
 end function
